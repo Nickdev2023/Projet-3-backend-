@@ -35,7 +35,7 @@ const exerciceSchema = new Schema(
     },
     workout: {
       type: Schema.Types.ObjectId,
-      ref: "Workout",
+      ref: "Workouts",
     },
   },
   {

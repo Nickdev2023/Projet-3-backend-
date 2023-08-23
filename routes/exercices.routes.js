@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Exercice = require("./../models/exercices.model");
-const getQuery = require("./../utils/index");
-
+// const getQuery = require("./../utils/index");
+const Workout = require("./../models/workouts.model");
 router.get("/", async (req, res, next) => {
   try {
     const allExercices = await Exercice.find();
@@ -19,6 +19,7 @@ router.post("/", (req, res, next) => {
     weight: req.body.weight,
     exerciceType: req.body.exerciceType,
     category: req.body.category,
+    workout: req.body.workout,
   })
     .then((createdExercice) => {
       res.status(201).json(createdExercice);
