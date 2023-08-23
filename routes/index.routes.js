@@ -6,7 +6,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.use("/exercices", require("./exercices.routes"));
-router.use("/workouts", require("./workouts.routes"));
+router.use("/workouts", require("./workout.routes"));
 router.use("/profil", require("./profil.routes"));
 
 module.exports = router;
