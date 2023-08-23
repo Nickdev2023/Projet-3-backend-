@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Exercice = require("./../models/exercices.model");
+const getQuery = require("./../utils/index");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -27,10 +28,22 @@ router.post("/", (req, res, next) => {
     });
 });
 
+router.get("/workouts/:workoutId", async (req, res, next) => {
+  const { workoutId } = req.query;
+  const query = getQuery(workoutId);
+  try {
+    const allExercices = await Exercice.find(query);
+    res.json(allExercices);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:exerciceId", (req, res, next) => {
   const exerciceId = req.params.exerciceId;
 
   Exercice.findById(exerciceId)
+    .populate("workout")
     .then((oneExercice) => {
       console.log(oneExercice);
       res.status(200).json(oneExercice);
