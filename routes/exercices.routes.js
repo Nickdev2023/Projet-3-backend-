@@ -2,6 +2,8 @@ const router = require("express").Router();
 const Exercice = require("./../models/exercices.model");
 // const getQuery = require("./../utils/index");
 const Workout = require("./../models/workouts.model");
+const { isAuthenticated } = require("../middleware/jwt.middleware.js");
+
 router.get("/", async (req, res, next) => {
   try {
     const allExercices = await Exercice.find();

@@ -18,6 +18,7 @@ router.post("/", (req, res, next) => {
     duration: req.body.duration,
     category: req.body.category,
     exercice: req.body.exercice,
+    creator: req.payload._id,
   })
     .then((createdWorkout) => {
       res.status(201).json(createdWorkout);
@@ -40,7 +41,7 @@ router.get("/exercices/:exerciceId", async (req, res, next) => {
 router.get("/:workoutId", (req, res, next) => {
   const workoutId = req.params.workoutId;
 
-  Workout.findById(workoutId)
+  Workout.findOne({ _id: workoutId, creator: req.payload._id })
     .populate("exercice")
     .then((oneWorkout) => {
       console.log(oneWorkout);
@@ -54,7 +55,11 @@ router.get("/:workoutId", (req, res, next) => {
 router.put("/:workoutId", (req, res, next) => {
   const workoutId = req.params.workoutId;
 
-  Workout.findByIdAndUpdate(workoutId, req.body, { new: true })
+  Workout.findOneAndUpdate(
+    { _id: workoutId, creator: req.payload._id },
+    req.body,
+    { new: true }
+  )
     .then((updatedWorkout) => {
       res.status(200).json(updatedWorkout);
     })

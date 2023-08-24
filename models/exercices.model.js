@@ -33,10 +33,6 @@ const exerciceSchema = new Schema(
       enum: ["Chest", "Shoulders", "Legs", "Back", "Abs"],
       required: true,
     },
-    workout: {
-      type: Schema.Types.ObjectId,
-      ref: "Workouts",
-    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

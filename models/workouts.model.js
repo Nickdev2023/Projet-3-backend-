@@ -30,10 +30,13 @@ const workoutsSchema = new Schema(
       enum: ["Chest", "Shoulders", "Legs", "Back", "Abs"],
       required: true,
     },
-    exercice: {
-      type: Schema.Types.ObjectId,
-      ref: "Exercice",
-    },
+    exercice: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Exercice",
+      },
+    ],
+    creator: { type: Schema.Types.ObjectId, ref: "User" },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
