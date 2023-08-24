@@ -23,6 +23,7 @@ router.post("/", (req, res, next) => {
     fitnessLevel: req.body.fitnessLevel,
     numberOfTraining: req.body.numberOfTraining,
     bodyGoal: req.body.bodyGoal,
+    creator: req.payload._id,
   })
     .then((createdProfil) => {
       res.status(201).json(createdProfil);
@@ -35,7 +36,7 @@ router.post("/", (req, res, next) => {
 router.get("/:profilId", (req, res, next) => {
   const profilId = req.params.profilId;
 
-  Profil.findById(profilId)
+  Profil.findOne({ _id: profilId, creator: req.payload._id })
     .then((oneProfil) => {
       console.log(oneProfil);
       res.status(200).json(oneProfil);
@@ -47,7 +48,11 @@ router.get("/:profilId", (req, res, next) => {
 
 router.put("/:profilId", (req, res, next) => {
   const profilId = req.params.profilId;
-  Profil.findByIdAndUpdate(profilId, req.body, { new: true })
+  Profil.findOneAndUpdate(
+    { _id: profilId, creator: req.payload._id },
+    req.body,
+    { new: true }
+  )
     .then((updatedProfil) => {
       res.status(200).json(updatedProfil);
     })
@@ -58,7 +63,11 @@ router.put("/:profilId", (req, res, next) => {
 
 router.delete("/:profilId", (req, res, next) => {
   const profilId = req.params.profilId;
-  Profil.findByIdAndDelete(profilId)
+  Profil.findOneAndDelete(
+    { _id: profilId, creator: req.payload._id },
+    req.body,
+    { new: true }
+  )
     .then(() => {
       res.status(200).send();
     })

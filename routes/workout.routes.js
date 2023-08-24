@@ -70,7 +70,11 @@ router.put("/:workoutId", (req, res, next) => {
 
 router.delete("/:workoutId", (req, res, next) => {
   const workoutId = req.params.workoutId;
-  Workout.findByIdAndDelete(workoutId)
+  Workout.findOneAndDelete(
+    { _id: workoutId, creator: req.payload._id },
+    req.body,
+    { new: true }
+  )
     .then(() => {
       res.status(200).send();
     })

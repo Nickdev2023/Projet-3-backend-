@@ -58,6 +58,7 @@ const profilSchema = new Schema(
       type: String,
       enum: ["Loose fat", "Gain muscle"],
     },
+    creator: { type: Schema.Types.ObjectId, ref: "User" },
   },
   {
     timestamps: true,
