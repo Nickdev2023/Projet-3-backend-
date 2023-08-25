@@ -7,6 +7,7 @@ router.get("/", (req, res, next) => {
 });
 
 // Add isAuthenticated
+router.use("/signup", require("./auth.routes.js"));
 router.use(isAuthenticated);
 router.use("/exercices", require("./exercices.routes"));
 router.use("/workouts", require("./workout.routes"));
