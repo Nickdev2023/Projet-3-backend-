@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const Exercice = require("../models/exercices.model");
 const Workouts = require("./../models/workouts.model");
 const Workout = require("./../models/workouts.model");
 const getQuery = require("./../utils/index");
@@ -10,6 +11,7 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+// {creator: req.payload._id}
 
 router.post("/", (req, res, next) => {
   Workout.create({
@@ -40,12 +42,17 @@ router.get("/exercices/:exerciceId", async (req, res, next) => {
 
 router.get("/:workoutId", (req, res, next) => {
   const workoutId = req.params.workoutId;
-  console.log("ici", req.payload);
+  console.log("ici", req.payload, workoutId);
+  let response = {};
   Workout.findOne({ _id: workoutId, creator: req.payload._id })
-    .populate("exercice")
     .then((oneWorkout) => {
       console.log(oneWorkout);
-      res.status(200).json(oneWorkout);
+      response.workout = oneWorkout;
+      return Exercice.find({ workout: oneWorkout._id });
+    })
+    .then((exercices) => {
+      response.exos = exercices;
+      res.json(response);
     })
     .catch((error) => {
       next(error);
