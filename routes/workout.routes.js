@@ -40,7 +40,7 @@ router.get("/exercices/:exerciceId", async (req, res, next) => {
 
 router.get("/:workoutId", (req, res, next) => {
   const workoutId = req.params.workoutId;
-
+  console.log("ici", req.payload);
   Workout.findOne({ _id: workoutId, creator: req.payload._id })
     .populate("exercice")
     .then((oneWorkout) => {
