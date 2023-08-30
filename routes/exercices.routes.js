@@ -22,6 +22,7 @@ router.post("/", (req, res, next) => {
     exerciceType: req.body.exerciceType,
     category: req.body.category,
     workout: req.body.workout,
+    counter: req.body.counter,
     creator: req.payload._id,
   })
     .then((createdExercice) => {
@@ -64,6 +65,28 @@ router.put("/:exerciceId", (req, res, next) => {
     req.body,
     { new: true }
   )
+    .then((updatedExercice) => {
+      res.status(200).json(updatedExercice);
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
+router.put("/:exerciceId/increment", (req, res, next) => {
+  const exerciceId = req.params.exerciceId;
+  Exercice.findOne({ _id: exerciceId, creator: req.payload._id })
+    .then((exercice) => {
+      exercice.counter += 1;
+      if (exercice.counter === 3) {
+        if (exercice.exerciceType === "Polyarticular") {
+          exercice.weight += 5;
+        } else {
+          exercice.weight += 2.5;
+        }
+        exercice.counter = 0;
+      }
+      return exercice.save();
+    })
     .then((updatedExercice) => {
       res.status(200).json(updatedExercice);
     })

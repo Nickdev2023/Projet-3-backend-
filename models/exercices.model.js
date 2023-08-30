@@ -37,6 +37,10 @@ const exerciceSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Workouts",
     },
+    counter: {
+      type: Number,
+      default: 0,
+    },
 
     creator: { type: Schema.Types.ObjectId, ref: "User" },
   },
